@@ -27,7 +27,7 @@ All answers are the same: 8 (0, -9) (7, -7) (9, 0) (7, 7) (0, 9) (-7, 7) (-9, 0)
 
 */
 
-void test(double* data, int size) {
+void extreme_points(double* data, int size) {
 	vector<Vec> tri_list;
 	for (unsigned i = 0; i < size; i++) {
 		Vec vec(data[2 * i], data[2 * i + 1]);
@@ -62,13 +62,62 @@ void test(double* data, int size) {
 
 }
 
+void checkEdge(double* data, int size, int p, int q, std::vector<bool>& extreme) {
+	bool lEmpty = true;
+	bool rEmpty = true;
+	for (unsigned i = 0; i < size && (lEmpty || rEmpty); i++) {
+		if (i != p && i != q) {
+			Vec p1(data[2 * p], data[2 * p + 1]);
+			Vec q1(data[2 * q], data[2 * q + 1]);
+			Vec s(data[2 * i], data[2 * i + 1]);
+			toTheLeft(p1, q1, s) ? lEmpty = false : rEmpty = false;
+		}
+	}
+
+	if (lEmpty || rEmpty) {// on the same side;
+		extreme[p] = extreme[q] = true;
+	}
+}
+
+void extreme_edges(double* data, int size) {
+	vector<Vec> tri_list;
+	for (unsigned i = 0; i < size; i++) {
+		Vec vec(data[2 * i], data[2 * i + 1]);
+		tri_list.push_back(vec);
+	}
+	std::string path_init = "init.obj";
+	show(path_init, tri_list);
+
+	std::vector<bool> is_extreme(size, false);
+
+	for (unsigned i = 0; i < tri_list.size(); i++) {
+		for (unsigned j = i + 1; j < tri_list.size(); j++) {
+			// enumerate all edges p_i p_j and check the left size-2 points;
+			checkEdge(data, size, i, j, is_extreme);
+		}
+
+	}
+
+	vector<Vec> res;
+
+	for (int i = 0; i < size; i++) {
+		if (is_extreme[i]) res.push_back(tri_list[i]);
+	}
+
+	std::cout << "..........................." << std::endl;
+	std::string path_res = "res.obj";
+	show(path_res, res);
+
+}
+
 int main(){
 	double d1[16] = { 7, 7, 7, -7, -7, -7, -7, 7, 9, 0, -9, 0, 0, 9, 0, -9 };
-	test(d1, 8);
-
+	//extreme_points(d1, 8);
+	extreme_edges(d1, 8);
 	double d2[32] = { 7, 7, 7, - 7, - 7, - 7, - 7, 7, 9, 0,
 		- 9, 0, 0, 9,0 ,- 9, 0, 0, 1, 2, - 2, 1, - 1, - 1, 3, 4, 4, 3, - 5, 4, 6, 5 };
-	test(d2, 16);
+	//extreme_points(d2, 16);
+	extreme_edges(d2, 16);
 
 
 
