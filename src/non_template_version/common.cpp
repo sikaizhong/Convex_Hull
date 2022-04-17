@@ -5,6 +5,8 @@ bool toTheLeft(Vec&p, Vec&q, Vec&s) {
 		+ s.x*p.y - s.y*p.x)<0;
 }
 bool insideTriangle(Vec&a, Vec&b, Vec&c, Vec& s) {
+	// abc must be in CCW order;
+
 	if (toTheLeft(a, b, s)
 		&& toTheLeft(b, c, s)
 		&& toTheLeft(c, a, s))// same side;

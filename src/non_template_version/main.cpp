@@ -113,14 +113,30 @@ void extreme_edges(double* data, int size) {
 int main(){
 	double d1[16] = { 7, 7, 7, -7, -7, -7, -7, 7, 9, 0, -9, 0, 0, 9, 0, -9 };
 	//extreme_points(d1, 8);
-	extreme_edges(d1, 8);
+	//extreme_edges(d1, 8);
 	double d2[32] = { 7, 7, 7, - 7, - 7, - 7, - 7, 7, 9, 0,
 		- 9, 0, 0, 9,0 ,- 9, 0, 0, 1, 2, - 2, 1, - 1, - 1, 3, 4, 4, 3, - 5, 4, 6, 5 };
 	//extreme_points(d2, 16);
-	extreme_edges(d2, 16);
+	//extreme_edges(d2, 16);
+
+	Vec v1(d1[0], d1[1]);
+	Vec v2(d1[2], d1[3]);
+	Vec v3(d1[4], d1[5]);
+	Vec v4((v1.x+v2.x+v3.x)/3, (v1.y + v2.y + v3.y) / 3);
+
+	vector<Vec> res;
+	res.push_back(v1);
+	res.push_back(v2);
+	res.push_back(v3);
+	//res.push_back(v4);
+
+	//std::string path_res = "res.obj";
+	//show(path_res, res);
 
 
 
+	bool inside=insideTriangle(v1, v2, v3, v4);
+	std::cout << inside << std::endl;
 
 
     return 0;

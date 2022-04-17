@@ -5,10 +5,7 @@ cmake_minimum_required(VERSION 3.1...3.20)
 project(Convex_Hull)
 set(CMAKE_CXX_STANDARD 17)
 
-file(GLOB SRC
-  "src/*.cpp"
-  "src/*.h"
+add_subdirectory(src/kernel_version)
+add_subdirectory(src/non_template_version)
 
-)
 
-add_executable(Convex_Hull ${SRC})
